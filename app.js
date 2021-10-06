@@ -8,6 +8,7 @@ config();
 
 const DEFAULT_ITERATIONS = 10;
 const DEFAULT_CONCURRENT_REQUESTS = 1;
+const MAX_ERRORS = 10;
 
 const [iterations = DEFAULT_ITERATIONS, concurrentRequests = DEFAULT_CONCURRENT_REQUESTS] =
 	process.argv.splice(2);
@@ -46,6 +47,7 @@ function getUser() {
 	};
 }
 
+const errors = [];
 async.mapLimit(
 	instances,
 	Number(concurrentRequests),
@@ -54,8 +56,15 @@ async.mapLimit(
 
     return result;
 	},
-	(err, results) => {
-		if (err) throw err;
+	(error, results) => {
+		if (error) {
+			if (errors.length >= MAX_ERRORS) {
+				throw error;
+			}
+
+			console.error(error);
+			errors.push(error);
+		}
 
     console.log('\n', `Sent ${results.length} fake forms`)
 	}
