@@ -9,7 +9,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "faker": "^5.5.3"
+    "dotenv": "^10.0.0",
+    "faker": "^5.5.3",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.0.0"
   }
 }
