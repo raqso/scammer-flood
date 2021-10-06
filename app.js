@@ -22,6 +22,7 @@ async function sendFakeForm() {
 		method: "POST",
 		body: formData,
 	});
+  console.log(response.status);
   console.timeEnd(logText);
 
 	return response.statusText;
