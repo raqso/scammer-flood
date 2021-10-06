@@ -55,5 +55,7 @@ async.mapLimit(
 	},
 	(err, results) => {
 		if (err) throw err;
+
+    console.log(`Sent ${results.length} fake forms`)
 	}
 );
