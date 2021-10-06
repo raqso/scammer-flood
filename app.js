@@ -6,28 +6,33 @@ import async from "async";
 
 config();
 
-const INSTANCES_COUNT = 1000;
-const CONCURRENT_REQUESTS = 50;
+const INSTANCES_COUNT = 10;
+const CONCURRENT_REQUESTS = 3;
 const instances = Array(INSTANCES_COUNT).fill();
 
 async function sendFakeForm() {
-	const body = getFakeForm();
+	const { formData, user } = getFakeForm();
+  const logText = `Sent ${user.email}, ${user.password}`;;
 
+  console.time(logText);
 	const response = await fetch(process.env.ENDPOINT_URL, {
 		method: "POST",
-		body,
+		body: formData,
 	});
+  console.timeEnd(logText);
 
 	return response.statusText;
 }
 
 function getFakeForm() {
-  const { email, password } = getUser();
+  const user = getUser();
+  const { email, password } = user;
   const formData = new FormData();
+
   formData.append("email", email);
   formData.append("password", password);
 
-  return formData;
+  return {formData, user};
 }
 
 function getUser() {
@@ -42,7 +47,7 @@ async.mapLimit(
 	CONCURRENT_REQUESTS,
 	async function () {
 		const result = await sendFakeForm();
-    console.log(result);
+
     return result;
 	},
 	(err, results) => {
