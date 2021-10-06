@@ -1,6 +1,6 @@
 # Scammer flooder
 
-It's simple script just to flood scammers endpoints that try hijack people passwords by phishing. It's ussually just a simple php script that recieves form data type with email and password.
+It's a simple script that just try to flood endpoint of scammers that try hijack people passwords by phishing. It's ussually just a simple php script that recieves form data type with email and password.
 
 By sending a lot of fake forms and flooding their database, we're making finding of real user data, harder.
 
