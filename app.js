@@ -6,9 +6,12 @@ import async from "async";
 
 config();
 
-const INSTANCES_COUNT = 10;
-const CONCURRENT_REQUESTS = 3;
-const instances = Array(INSTANCES_COUNT).fill();
+const DEFAULT_ITERATIONS = 10;
+const DEFAULT_CONCURRENT_REQUESTS = 1;
+
+const [iterations = DEFAULT_ITERATIONS, concurrentRequests = DEFAULT_CONCURRENT_REQUESTS] =
+	process.argv.splice(2);
+const instances = Array(Number(iterations)).fill();
 
 async function sendFakeForm() {
 	const { formData, user } = getFakeForm();
@@ -44,7 +47,7 @@ function getUser() {
 
 async.mapLimit(
 	instances,
-	CONCURRENT_REQUESTS,
+	Number(concurrentRequests),
 	async function () {
 		const result = await sendFakeForm();
 
